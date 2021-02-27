@@ -158,6 +158,16 @@ function createPitLayout() {
   $("#game").children().append('<div class="marbel-bucket"></div>');
 }
 
+/* //////////////////////
+///BUTTON functionality//
+//////////////////////*/ 
+
+//Reset Game
+$("#reset").click(function () {
+  localStorage.clear();
+  location.reload();
+})
+
 //Start Game button
 $("#start").click(function (e) {
   e.preventDefault();
