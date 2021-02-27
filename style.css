@@ -1,0 +1,73 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html {
+  background: url(images/water.jpg) no-repeat center center fixed;
+  background-size: cover;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+#game {
+  height: 300px;
+  width: 900px;
+  background-color: burlywood;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: repeat(8, 1fr);
+}
+
+.pit,
+.bowl {
+  margin: 10px;
+  background-color: brown;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.marbel-bucket {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+#pit-0,
+#pit-7 {
+  grid-row: span 2 / 3;
+}
+
+#pit-0 {
+  grid-column-start: 1;
+}
+
+#pit-7 {
+  grid-column-end: -1;
+}
+
+[name="p1"] {
+  grid-row-end: 3;
+}
+
+[name="p2"] {
+  grid-row-start: 1;
+}
+
+.marble {
+  background-color: blue;
+  height: 20px;
+  width: 20px;
+  border-radius: 20px;
+}
+
+.pit:hover {
+  background-color: rgb(92, 26, 26);
+}
