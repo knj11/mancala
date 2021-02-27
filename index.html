@@ -16,7 +16,7 @@
   </head>
   <body>
     <div class="title">Mancala</div>
-    <div class="player">Player 1</div>
+    <div class="player"></div>
     <div id="game">
       <div class="bowl" id="pit-0"></div>
       <div class="pit" name="p1" id="pit-1"></div>
@@ -33,6 +33,21 @@
       <div class="pit" name="p2" id="pit-9"></div>
       <div class="pit" name="p2" id="pit-8"></div>
     </div>
-    <button class="start">Start Game</button>
+    <div class="modal open">
+        <div class="content">
+            <form action="">
+                <p>Welcome to the game of Mancala</p>
+                <p>Please enter Player names</p>
+                <br>
+                <label for="player1">Player 1:</label>
+                <input type="text" id="player1" required>
+                <br>
+                <label for="player2">Player 2:</label>
+                <input type="text" id="player2" required>
+                <br>
+                <button type="submit" id="start">Start Game</button>
+            </form>
+        </div>
+    </div>
   </body>
 </html>

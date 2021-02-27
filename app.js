@@ -35,6 +35,8 @@ const stealLookUp = {
 const gameState = {
   board: JSON.parse(localStorage.getItem("board")) || DEFAULT_BOARD, // from above
   currentPlayer: 1, // switch to 2 when the player swaps
+  player1: '',
+  player2: '',
 };
 
 function playerMove(pitID) {
@@ -111,13 +113,17 @@ function playerMove(pitID) {
   }
 }
 
-function populateMarbles() {
+function renderElements() {
   function createMarble() {
     return $('<div class="marble">');
   }
 
   function updatePitCount(id, count) {
     $(`#pit-${id} .pit-count`).text(`${count}`);
+  }
+
+  function updatePlayerName() {
+    (gameState.currentPlayer === 1) ? $('.player').text(gameState.player1) : $('.player').text(gameState.player2)
   }
 
   $(".marbel-bucket").empty();
@@ -130,6 +136,8 @@ function populateMarbles() {
       $(`#pit-${pitID} .marbel-bucket`).append(createMarble());
     }
   }
+
+  updatePlayerName()
 }
 
 function createPitLayout() {
@@ -137,6 +145,17 @@ function createPitLayout() {
   $("#game").children().append('<div class="marbel-bucket"></div>');
 }
 
+//Start Game button
+$('#start').click(function (e) {
+  e.preventDefault()
+  gameState.player1 = $('#player1').val()
+  gameState.player2 = $('#player2').val()
+
+  $('.modal').removeClass('open')
+  renderElements()
+})
+
+//Player's Move Button
 $(`.pit`).click(function () {
   //regex to return only digits from the pitID string
   let pitID = +$(this).attr("id").replace(/\D/g, "");
@@ -144,9 +163,9 @@ $(`.pit`).click(function () {
 
   if (playerID === gameState.currentPlayer) {
     playerMove(pitID);
-    populateMarbles();
+    renderElements();
   }
 });
 
 createPitLayout();
-populateMarbles();
+renderElements();
