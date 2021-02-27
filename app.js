@@ -76,6 +76,9 @@ function playerMove(pitID) {
     gameState.board[pitID]++;
 
     lastMarbleSpotID = pitID;
+
+    //Store upDated board in local Storage
+    localStorage.setItem("board", JSON.stringify(gameState.board));
   }
 
   //check marbleCount of last position
@@ -170,7 +173,6 @@ $("#start").click(function (e) {
     $(".modal").removeClass("open");
     renderElements();
   }
-
 });
 
 //Player's Move Button
