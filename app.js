@@ -35,8 +35,8 @@ const stealLookUp = {
 const gameState = {
   board: JSON.parse(localStorage.getItem("board")) || DEFAULT_BOARD, // from above
   currentPlayer: 1, // switch to 2 when the player swaps
-  player1: '',
-  player2: '',
+  player1: "",
+  player2: "",
 };
 
 function playerMove(pitID) {
@@ -89,7 +89,7 @@ function playerMove(pitID) {
         gameState.board[lastMarbleSpotID] + gameState.board[opponentPit];
       gameState.board[lastMarbleSpotID] = 0;
       gameState.board[opponentPit] = 0;
-      (playerID === 1)
+      playerID === 1
         ? (gameState.board[7] += totalMarblesStolen)
         : (gameState.board[0] += totalMarblesStolen);
     }
@@ -123,7 +123,16 @@ function renderElements() {
   }
 
   function updatePlayerName() {
-    (gameState.currentPlayer === 1) ? $('.player').text(gameState.player1) : $('.player').text(gameState.player2)
+    gameState.currentPlayer === 1
+      ? $(".player").text(gameState.player1)
+      : $(".player").text(gameState.player2);
+  }
+
+  function toggleClickablePits() {
+    $(".pit").removeClass("can-click");
+    gameState.currentPlayer === 1
+      ? $('[name="p1"]').addClass("can-click")
+      : $('[name="p2"]').addClass("can-click");
   }
 
   $(".marbel-bucket").empty();
@@ -137,7 +146,8 @@ function renderElements() {
     }
   }
 
-  updatePlayerName()
+  updatePlayerName();
+  toggleClickablePits();
 }
 
 function createPitLayout() {
@@ -146,14 +156,14 @@ function createPitLayout() {
 }
 
 //Start Game button
-$('#start').click(function (e) {
-  e.preventDefault()
-  gameState.player1 = $('#player1').val()
-  gameState.player2 = $('#player2').val()
+$("#start").click(function (e) {
+  e.preventDefault();
+  gameState.player1 = $("#player1").val();
+  gameState.player2 = $("#player2").val();
 
-  $('.modal').removeClass('open')
-  renderElements()
-})
+  $(".modal").removeClass("open");
+  renderElements();
+});
 
 //Player's Move Button
 $(`.pit`).click(function () {
