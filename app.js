@@ -34,10 +34,17 @@ const stealLookUp = {
 
 const gameState = {
   board: JSON.parse(localStorage.getItem("board")) || DEFAULT_BOARD, // from above
-  currentPlayer: 1, // switch to 2 when the player swaps
-  player1: "",
-  player2: "",
+  currentPlayer: JSON.parse(localStorage.getItem("currentPlayer")) || 1, // switch to 2 when the player swaps
+  player1: JSON.parse(localStorage.getItem("player1")) || "",
+  player2: JSON.parse(localStorage.getItem("player2")) || "",
+  activeGame: JSON.parse(localStorage.getItem("activeGame")) || false,
 };
+
+function storeGameState() {
+  for (let property in gameState) {
+    localStorage.setItem(`${property}`, JSON.stringify(gameState[property]))
+  }
+}
 
 function playerMove(pitID) {
   let playerID = gameState.currentPlayer;
@@ -77,8 +84,6 @@ function playerMove(pitID) {
 
     lastMarbleSpotID = pitID;
 
-    //Store upDated board in local Storage
-    localStorage.setItem("board", JSON.stringify(gameState.board));
   }
 
   //check marbleCount of last position
@@ -114,6 +119,9 @@ function playerMove(pitID) {
       ? (gameState.currentPlayer = 2)
       : (gameState.currentPlayer = 1);
   }
+
+  //Store gameState object in local Storage
+  storeGameState()
 }
 
 function renderElements() {
@@ -160,17 +168,18 @@ function createPitLayout() {
 
 /* //////////////////////
 ///BUTTON functionality//
-//////////////////////*/ 
+//////////////////////*/
 
 //Reset Game
 $("#reset").click(function () {
   localStorage.clear();
   location.reload();
-})
+});
 
 //Start Game button
 $("#start").click(function (e) {
   e.preventDefault();
+  gameState.activeGame = true;
 
   let p1Name = $("#player1").val();
   let p2Name = $("#player2").val();
@@ -182,6 +191,7 @@ $("#start").click(function (e) {
     gameState.player2 = p2Name;
     $(".modal").removeClass("open");
     renderElements();
+    storeGameState()
   }
 });
 
@@ -199,3 +209,7 @@ $(`.pit`).click(function () {
 
 createPitLayout();
 renderElements();
+
+if (gameState.activeGame === false) {
+  $(".modal").addClass("open");
+}
