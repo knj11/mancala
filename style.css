@@ -16,6 +16,19 @@ body {
   height: 100vh;
 }
 
+.title {
+    position: fixed;
+    top: 10px;
+    font-size: 80px;
+    font-family: 'Akaya Telivigala', cursive;;
+}
+
+.player {
+    margin-bottom: 20px;
+    font-family: 'Akaya Telivigala', cursive;
+    font-size: 40px;
+}
+
 #game {
   height: 300px;
   width: 900px;
