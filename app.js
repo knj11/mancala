@@ -158,11 +158,19 @@ function createPitLayout() {
 //Start Game button
 $("#start").click(function (e) {
   e.preventDefault();
-  gameState.player1 = $("#player1").val();
-  gameState.player2 = $("#player2").val();
 
-  $(".modal").removeClass("open");
-  renderElements();
+  let p1Name = $("#player1").val();
+  let p2Name = $("#player2").val();
+
+  if (p1Name === "" || p2Name === "") {
+    alert("Please enter a name for Players");
+  } else {
+    gameState.player1 = p1Name;
+    gameState.player2 = p2Name;
+    $(".modal").removeClass("open");
+    renderElements();
+  }
+
 });
 
 //Player's Move Button
