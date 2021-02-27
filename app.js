@@ -32,6 +32,8 @@ const stealLookUp = {
   pit_13: 1,
 };
 
+let endGameBool = false;
+
 const gameState = {
   board: JSON.parse(localStorage.getItem("board")) || DEFAULT_BOARD, // from above
   currentPlayer: JSON.parse(localStorage.getItem("currentPlayer")) || 1, // switch to 2 when the player swaps
@@ -42,7 +44,7 @@ const gameState = {
 
 function storeGameState() {
   for (let property in gameState) {
-    localStorage.setItem(`${property}`, JSON.stringify(gameState[property]))
+    localStorage.setItem(`${property}`, JSON.stringify(gameState[property]));
   }
 }
 
@@ -56,6 +58,31 @@ function playerMove(pitID) {
     if (id >= 1 && id <= 6 && playerID === 1) {
       return true;
     } else if (id >= 8 && id <= 13 && playerID === 2) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  function isEndGame() {
+    let p1Pits = gameState.board.slice(1, 7);
+    let p2Pits = gameState.board.slice(8, 14);
+    let p1Sum = p1Pits.reduce((acc, el) => acc + el, 0);
+    let p2Sum = p2Pits.reduce((acc, el) => acc + el, 0);
+
+    if (p1Sum === 0) {
+      //adds sum of Player 2 marbles into their Bowl and clears pits
+      gameState.board[0] += p2Sum;
+      for (let i = 8; i <= 13; i++) {
+        gameState.board[i] = 0;
+      }
+      return true;
+      //adds sum of Player 1 marbles into their Bowl and clears pits
+    } else if (p2Sum === 0) {
+      gameState.board[7] += p1Sum;
+      for (let i = 1; i <= 6; i++) {
+        gameState.board[i] = 0;
+      }
       return true;
     } else {
       return false;
@@ -83,7 +110,6 @@ function playerMove(pitID) {
     gameState.board[pitID]++;
 
     lastMarbleSpotID = pitID;
-
   }
 
   //check marbleCount of last position
@@ -112,6 +138,13 @@ function playerMove(pitID) {
     extraTurn = false;
   }
 
+  //logic to check if either players pits are empty (END GAME)
+  if (isEndGame()) {
+    endGameBool = true;
+    //setting extraTurn to true will override setting current player to next value
+    extraTurn = true;
+  }
+
   //logic to check for an extra turn
   if (!extraTurn) {
     //switches players at the end of a turn
@@ -121,7 +154,7 @@ function playerMove(pitID) {
   }
 
   //Store gameState object in local Storage
-  storeGameState()
+  storeGameState();
 }
 
 function renderElements() {
@@ -155,6 +188,15 @@ function renderElements() {
     for (let j = 0; j < pitCount; j++) {
       $(`#pit-${pitID} .marbel-bucket`).append(createMarble());
     }
+  }
+
+  if (endGameBool) {
+    $(".end-game").addClass("open");
+    $(".end-game .content").html(
+      `<p>congratulations ${
+        gameState.currentPlayer === 1 ? gameState.player1 : gameState.player2
+      } on winning the game</p>`
+    );
   }
 
   updatePlayerName();
@@ -191,7 +233,7 @@ $("#start").click(function (e) {
     gameState.player2 = p2Name;
     $(".modal").removeClass("open");
     renderElements();
-    storeGameState()
+    storeGameState();
   }
 });
 

@@ -85,10 +85,12 @@ body {
   background-color: rgb(92, 26, 26);
 }
 
+.end-game:not(.open),
 .modal:not(.open) {
     display: none;
 }
 
+.end-game.open,
 .modal.open {
   position: absolute;
   top: 0;
@@ -103,6 +105,7 @@ body {
   backdrop-filter: blur(6px);
 }
 
+.end-game .content,
 .modal .content {
   font-family: "Noto Sans", sans-serif;
   width: 480px;
