@@ -35,25 +35,34 @@
     </div>
     <button type="submit" id="reset">Reset Game</button>
     <div class="modal">
-        <div class="content">
-            <form action="">
-                <p>Welcome to the game of Mancala</p>
-                <p>Please enter Player names</p>
-                <br>
-                <label for="player1">Player 1:</label>
-                <input type="text" id="player1" required>
-                <br>
-                <label for="player2">Player 2:</label>
-                <input type="text" id="player2" required>
-                <br>
-                <button type="submit" id="start">Start Game</button>
-            </form>
-        </div>
+      <div class="content">
+        <form action="">
+          <p>Welcome to the game of Mancala</p>
+          <p>Choose your opponent</p>
+          <br />
+          <label for="bot">
+            VS Computer:
+            <input type="radio" id="bot" name="vsSelector">
+          </label>
+          <label for="person">
+            VS local Player:
+            <input type="radio" id="person" name="vsSelector">
+          </label>
+          <br>
+          <p id="">Please enter Player names</p>
+          <br />
+          <label for="player1">Player 1:</label>
+          <input type="text" id="player1" required />
+          <br />
+          <label for="player2">Player 2:</label>
+          <input type="text" id="player2" required />
+          <br />
+          <button type="submit" id="start">Start Game</button>
+        </form>
+      </div>
     </div>
     <div class="end-game">
-        <div class="content">
-            
-        </div>
+      <div class="content"></div>
     </div>
   </body>
 </html>

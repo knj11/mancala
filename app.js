@@ -40,6 +40,7 @@ const gameState = {
   player1: JSON.parse(localStorage.getItem("player1")) || "",
   player2: JSON.parse(localStorage.getItem("player2")) || "",
   activeGame: JSON.parse(localStorage.getItem("activeGame")) || false,
+  isBot: JSON.parse(localStorage.getItem("isBot")) || false,
 };
 
 function storeGameState() {
@@ -218,10 +219,20 @@ $("#reset").click(function () {
   location.reload();
 });
 
+//Select opponent radio buttons
+$("input[type=radio]").click((e) => {
+  //toggles between vs player and vs bot
+  let opponent = e.target.id
+  if (opponent === 'bot') {
+    $('#player2').val('Bot').attr('disabled', true)
+  } else {
+    $('#player2').val('').removeAttr('disabled')
+  }
+});
+
 //Start Game button
 $("#start").click(function (e) {
   e.preventDefault();
-  gameState.activeGame = true;
 
   let p1Name = $("#player1").val();
   let p2Name = $("#player2").val();
@@ -229,6 +240,8 @@ $("#start").click(function (e) {
   if (p1Name === "" || p2Name === "") {
     alert("Please enter a name for Players");
   } else {
+    gameState.activeGame = true;
+    gameState.isBot = (document.getElementById('bot').checked)
     gameState.player1 = p1Name;
     gameState.player2 = p2Name;
     $(".modal").removeClass("open");
