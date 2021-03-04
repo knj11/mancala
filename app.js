@@ -90,7 +90,9 @@ function playerMove(pitID) {
     }
   }
 
+  //Clears the pit the was selected
   gameState.board[pitID] = 0;
+  //Fetches the count and iteriates through that many marbles place 1 in each spot
   for (let i = 0; i < pitCount; i++) {
     pitID++;
     //resets rotation through the board
@@ -156,6 +158,45 @@ function playerMove(pitID) {
 
   //Store gameState object in local Storage
   storeGameState();
+
+  //Bot will decide next move
+  if (gameState.isBot && gameState.currentPlayer === 2) {
+    renderElements();
+    setTimeout(botDecision, 1500);
+  }
+}
+
+function botDecision() {
+  // Bot's bowl is at index 0
+  let bowlCount = gameState.board[0];
+  //
+  let botPits = gameState.board.slice(8, 14);
+  let extraPickBool = false;
+  let extraMovePick;
+  let lastResortPick;
+
+  let compareExtraMoveNum = 6;
+  for (let idx = 8; idx < 14; idx++) {
+    if (gameState.board[idx] === compareExtraMoveNum) {
+      extraPickBool = true;
+      extraMovePick = idx;
+      break;
+    }
+    compareExtraMoveNum--;
+  }
+
+
+  for (let idx = 13; idx > 7; idx--) {
+    if (gameState.board[idx] > 0) {
+      lastResortPick = idx;
+      break;
+    }
+  }
+
+  (extraPickBool)
+    ? playerMove(extraMovePick)
+    : playerMove(lastResortPick);
+  renderElements();
 }
 
 function renderElements() {
@@ -222,11 +263,11 @@ $("#reset").click(function () {
 //Select opponent radio buttons
 $("input[type=radio]").click((e) => {
   //toggles between vs player and vs bot
-  let opponent = e.target.id
-  if (opponent === 'bot') {
-    $('#player2').val('Bot').attr('disabled', true)
+  let opponent = e.target.id;
+  if (opponent === "bot") {
+    $("#player2").val("Bot").attr("disabled", true);
   } else {
-    $('#player2').val('').removeAttr('disabled')
+    $("#player2").val("").removeAttr("disabled");
   }
 });
 
@@ -241,7 +282,7 @@ $("#start").click(function (e) {
     alert("Please enter a name for Players");
   } else {
     gameState.activeGame = true;
-    gameState.isBot = (document.getElementById('bot').checked)
+    gameState.isBot = document.getElementById("bot").checked;
     gameState.player1 = p1Name;
     gameState.player2 = p2Name;
     $(".modal").removeClass("open");
