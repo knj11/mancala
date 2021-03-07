@@ -233,11 +233,14 @@ function renderElements() {
   }
 
   if (endGameBool) {
+    p1BowlCount = gameState.board[7]
+    p2BowlCount = gameState.board[0]
     $(".end-game").addClass("open");
     $(".end-game .content").html(
       `<p>congratulations ${
-        gameState.currentPlayer === 1 ? gameState.player1 : gameState.player2
-      } on winning the game</p>`
+        (p1BowlCount > p2BowlCount) ? gameState.player1 : gameState.player2
+      } on winning the game</p>
+      `
     );
   }
 
